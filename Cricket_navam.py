@@ -122,6 +122,15 @@ class Cricket:
 			
 			self.Inning[curr_bowl_name].Bowler[name] = dic
 
+		for i in self.Inning[curr_bat_name].Batsman:
+			r = int(self.Inning[curr_bat_name].Batsman[i]['R'])
+			r += r//50
+			self.Team[curr_bat_name][i] = r 
+			
+		for i in self.Inning[curr_bowl_name].Bowler:
+			r = int(self.Inning[curr_bowl_name].Bowler[i]['W'])
+			r = r*20
+			self.Team[curr_bowl_name][i] = r 
 	def Update(self):
 		print(cric.get_curr_team_score())
 		print(cric.get_playing_bats())
@@ -135,12 +144,12 @@ class Cricket:
 
 cric = Cricket(url_comm, url)
 cric.get_playing_11()
+
+
+# cric.Update()
+
+cric.Update_Innings_stats()
+
 print(cric.Team)
-
-cric.Update()
-
-# cric.Update_Innings_stats()
-
-print("Hello")
 
 
