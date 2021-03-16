@@ -1,6 +1,8 @@
 import urllib.request as lib, json, requests
 from bs4 import BeautifulSoup
 from bs2json import bs2json
+import time
+import sys
 
 url_comm = 'https://www.cricbuzz.com/live-cricket-scores/32587/ql-vs-vic-18th-match-sheffield-shield-2020-21'
 url = 'https://www.cricbuzz.com/live-cricket-scorecard/32587/ql-vs-vic-18th-match-sheffield-shield-2020-21'
@@ -136,20 +138,54 @@ class Cricket:
 		print(cric.get_playing_bats())
 		print(cric.get_playing_bowl())
 		self.Update_Innings_stats()
-		# self.inning2.Update_Innings_stats(self.conv)
-		print(self.Inning[self.team1].Batsman)
-		print(self.Inning[self.team1].Bowler)
-		print(self.Inning[self.team2].Batsman)
-		print(self.Inning[self.team2].Bowler)
+		
+		self.pretty_print(self.Inning[self.team1].Batsman)
+		self.pretty_print(self.Inning[self.team1].Bowler)
+		self.pretty_print(self.Inning[self.team2].Batsman)
+		self.pretty_print(self.Inning[self.team2].Bowler)
+		self.print_fantasy_points()
+
+	def pretty_print(self,dic):
+	
+		print(" "*29,end=" ")
+		if len(dic)>0:
+			for i in dic:
+				for j in dic[i]:
+					print(j,end=" "*(5-len(j)))
+				break
+		print()	
+		for i in dic:
+			print(i,end=" "*(30-len(i)))
+			for j in dic[i]:
+				print(dic[i][j],end=" "*(5-len(dic[i][j])))
+			print()
+
+		# print()
+
+	def print_fantasy_points(self):
+		
+		for i in self.Team:
+			print(i,end=" "*(30-(len(i))))
+			print()
+			print()
+			print("Player Name",end=" "*18)
+			print("Points")
+			for j in self.Team[i]:
+				print(j,end = " "*(30-len(j)))
+				print(self.Team[i][j], end=" "*(6-len(str(self.Team[i][j]))) )
+				print()
+			print()
 
 cric = Cricket(url_comm, url)
 cric.get_playing_11()
 
+from os import system
+while True:
+	cric.Update()
+	time.sleep(30)
 
-# cric.Update()
+	_ = system('cls')
 
-cric.Update_Innings_stats()
 
-print(cric.Team)
 
 
